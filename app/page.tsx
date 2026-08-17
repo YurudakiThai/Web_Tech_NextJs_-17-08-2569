@@ -33,6 +33,31 @@ export default function Home() {
 
   };
 
+  //Array ของ Object
+  const courses: Course[] = [
+    {
+      id: 1,
+      code: "10301231",
+      title: "Web Technology",
+      credits: 3,
+      isOpen: true,
+    },
+    {
+      id: 2, 
+      code: "10301232", 
+      title: "Database Systems", 
+      credits: 3, 
+      isOpen: false,
+    },
+    {
+      id: 3,
+      code: "6804101333",
+      title: "Thanakrit Na Lumphun",
+      credits: 3,
+      isOpen: true,
+    }
+  ];
+
   return (
    <main>
     
@@ -58,6 +83,16 @@ export default function Home() {
           <p>{course.credits} หน่วยกิต</p>
           <p>{course.isOpen ? "เปิดลงทะเบียน" : "ปิดลงทะเบียน"}</p>
         </article>
+      </section>
+      <section className = "courseGrid">
+        {courses.map ((course) => (
+        <article key= {course.id} className = "courseGrid">
+            <h2>{course.title}</h2>
+            <p>รหัสวิชา: {course.code}</p>
+            <p>{course.credits} หน่วยกิต</p>
+            <p>{course.isOpen ? "เปิดลงทะเบียน" : "ปิดลงทะเบียน"}</p>
+        </article>
+        ))}
       </section>
     </main> 
   );
