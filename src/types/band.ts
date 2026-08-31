@@ -1,4 +1,4 @@
-export interface Band = {
+export type Band = {
   id: string;
   brandname: string;
   founder: string;

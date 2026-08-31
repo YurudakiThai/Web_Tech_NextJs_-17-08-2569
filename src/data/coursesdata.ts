@@ -1,4 +1,4 @@
-import {Course} from "../../types/course";
+import {Course} from "@/src/types/course";
 export const courses: Course[] = [ 
   // นำข้อมูลรายวิชาที่สร้างไว้มาใส่ที่นี่ 
     {

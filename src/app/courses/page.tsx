@@ -1,6 +1,6 @@
-import CourseCard from "../../components/CourseCard";
-import {Course} from "../../types/course";
-import {courses} from "../../data/coursesdata";
+import CourseCard from "@/src/components/CourseCard";
+import {Course} from "@/src/types/course";
+import {courses} from "@/src/data/coursesdata";
  
  
 export default function CoursesPage() { 

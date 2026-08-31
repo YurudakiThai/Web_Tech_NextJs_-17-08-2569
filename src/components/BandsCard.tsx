@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import {Band} from "../types/band";
+import {Band} from "@/src/types/band";
 
 type BandCardProps = {
  band:Band;
