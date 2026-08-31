@@ -8,18 +8,23 @@ type BandCardProps = {
 export default function BandCard({band}: BandCardProps) {
   if (!band) return null;
   return (
-    <article className="band-card">
-      <Image 
-      src={band.logoUrl}
-      alt = {band.id}
-      width = {300}
-      height = {300}
-      />
-      {band.brandname}
-      {band.founder}
-      {Array.isArray(band.members) ? band.members.join(", \n") : band.members}  
+    <article className="band-card text-center">
+      <div className="flex justify-center">
+        <Image 
+          src={band.logoUrl}
+          alt = {band.id}
+          width = {300}
+          height = {300}
+        />
+      </div>
+      
       <br/>
-      {band.establishedYear} 
+      <h2 >ชื่อวง : {band.brandname}</h2>
+      <p>ผู้บุกเบิก : {band.founder} <br/>
+      ก่อตั้งเมื่อ : {band.establishedYear} </p>
+      <br/>
+      <p>ชื่อสมาชิก : {Array.isArray(band.members) ? band.members.join(", \n") : band.members}</p>  
+      <br/>
     </article>
   );
 };
