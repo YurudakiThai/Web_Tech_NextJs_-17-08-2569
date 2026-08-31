@@ -13,7 +13,7 @@ export const bands : Band[] = [
     establishedYear: 1960,
     description: "In the time, where i was born",
     logoUrl: "/image/bands/The_Beatles_logo.svg",
-    website: null,
+    website: "https://www.thebeatles.com/",
   },
   {
     id: "maroon5_2",

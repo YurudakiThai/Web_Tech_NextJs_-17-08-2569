@@ -3,19 +3,19 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <nav className="navbar" aria-label="เมนูหลัก"> 
-      <ul className="navList"> 
+      <ul className="navList flex gap-6 justify-around"> 
         <li> 
-          <Link className="navLink" href="/"> 
+          <Link className="navLink hover:underline" href="/"> 
             หน้าแรก 
           </Link> 
         </li> 
         <li> 
-          <Link className="navLink" href="/courses"> 
-            รายวิชา 
+          <Link className="navLink hover:underline" href="/courses"> 
+            วิชา
           </Link> 
         </li> 
         <li> 
-          <Link className="navLink" href="/about"> 
+          <Link className="navLink hover:underline" href="/about"> 
             เกี่ยวกับ 
           </Link> 
         </li> 
