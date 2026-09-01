@@ -21,9 +21,9 @@ export default function BandCard({band}: BandCardProps) {
       <br/>
       <h2 >ชื่อวง : {band.brandname}</h2>
       <p>ผู้บุกเบิก : {band.founder} <br/>
-      ก่อตั้งเมื่อ : {band.establishedYear} </p>
+      ก่อตั้งเมื่อปี : {band.establishedYear} </p>
       <br/>
-      <p>ชื่อสมาชิก : {Array.isArray(band.members) ? band.members.join(", \n") : band.members}</p>  
+      <p>ชื่อสมาชิกในปัจจุบัน : {Array.isArray(band.members) ? band.members.join(", \n") : band.members}</p>  
       <br/>
     </article>
   );
