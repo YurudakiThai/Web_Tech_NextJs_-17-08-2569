@@ -11,7 +11,7 @@ export default function Navbar() {
         </li> 
         <li> 
           <Link className="navLink hover:underline" href="/courses"> 
-            วิชา
+            ดนตรี
           </Link> 
         </li> 
         <li> 
