@@ -25,6 +25,7 @@ export const bands : Band[] = [
       "Matt Flynn",
       "PJ Morton",
       "Sam Farrar",
+      "Jesse Carmicheal"
     ],
     establishedYear: 1994,
     description: "Maroon 5 was founded as the high school band Kara's Flowers ",

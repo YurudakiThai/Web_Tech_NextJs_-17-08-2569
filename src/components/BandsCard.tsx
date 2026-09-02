@@ -7,6 +7,7 @@ type BandCardProps = {
 
 export default function BandCard({band}: BandCardProps) {
   if (!band) return null;
+  console.log(band);
   return (
     <article className="band-card text-center">
       <div className="flex justify-center">
