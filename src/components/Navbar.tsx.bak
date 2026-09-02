@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function Navbar() {
   return (
     <nav className="navbar" aria-label="เมนูหลัก"> 
-      <ul className="navList flex gap-6 justify-around"> 
+      <ul className="navList "> 
         <li> 
           <Link className="navLink hover:underline" href="/"> 
             หน้าแรก 

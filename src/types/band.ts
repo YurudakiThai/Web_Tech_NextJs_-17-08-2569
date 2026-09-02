@@ -1,12 +1,18 @@
-export type Band = {
-  id: string;
-  brandname: string;
-  founder: string;
-  members: string[];
-  establishedYear: number;
-  description?: string;
-  logoUrl: string;
-  website?: string;
+export type Member = {
+  id: number;
+  name: string;
+  role: string;
+  image: string;
 };
 
-
+export type Band = {
+  id: number;
+  slug: string;
+  name: string;
+  genre: string;
+  origin: string;
+  description: string;
+  image: string;
+  accentColor: string;
+  members: Member[];
+};

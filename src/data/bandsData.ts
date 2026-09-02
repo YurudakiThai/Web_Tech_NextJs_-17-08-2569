@@ -1,53 +1,127 @@
-import {Band} from "@/src/types/band";
-export const bands : Band[] = [
+import type { Band } from "@/src/types/band";
+
+export const bands: Band[] = [
   {
-    id: "the_beatles_1",
-    brandname: "The Beatles",
-    founder: "John Lennon",
-    members: [ 
-      "John Lennon",
-      "Paul McCartney",
-      "George Harrison",
-      "Ringo Starr",
+    id: 1,
+    slug: "the-beatles",
+    name: "The Beatles",
+    genre: "Rock",
+    origin: "Liverpool, England",
+    description:
+      "A British rock band known for influential songs, creative albums, and a lasting impact on popular music.",
+    image: "/image/bands/bands_members/TheBeatles/TheBeatlesMembers.webp",
+    accentColor: "#d4a72c",
+    members: [
+      {
+        id: 101,
+        name: "John Lennon",
+        role: "Vocals and guitar",
+        image: "/image/bands/bands_members/TheBeatles/John_Lennon.jpeg",
+      },
+      {
+        id: 102,
+        name: "Paul McCartney",
+        role: "Vocals and bass",
+        image: "/image/bands/bands_members/TheBeatles/Paul_McCartney.jpeg",
+      },
+      {
+        id: 103,
+        name: "George Harrison",
+        role: "Guitar and vocals",
+        image: "/image/bands/bands_members/TheBeatles/George_Harrison.jpeg",
+      },
+      {
+        id: 104,
+        name: "Ringo Starr",
+        role: "Drums and vocals",
+        image: "/image/bands/bands_members/TheBeatles/Ringo_Starr.jpeg",
+      },
     ],
-    establishedYear: 1960,
-    description: "In the time, where i was born",
-    logoUrl: "/image/bands/The_Beatles_logo.svg",
-    website: "https://www.thebeatles.com/",
   },
   {
-    id: "maroon5_2",
-    brandname: "Maroon 5",
-    founder: "Adam Levine, Jesse Carmichael, Mickey Madden, and Ryan Dusick",
+    id: 2,
+    slug: "maroon-5",
+    name: "Maroon 5",
+    genre: "Pop Rock",
+    origin: "Los Angeles, United States",
+    description:
+      "An American pop rock band recognized for combining pop melodies, rock instruments, and modern production.",
+    image: "/image/bands/bands_members/Maroon5/1_maroon5G.jpg",
+    accentColor: "#e63946",
     members: [
-      "Adam Levine",
-      "Jesse Carmichael",
-      "Matt Flynn",
-      "PJ Morton",
-      "Sam Farrar",
-      "Jesse Carmicheal"
+      {
+        id: 201,
+        name: "Adam Levine",
+        role: "Lead vocals",
+        image: "/image/bands/bands_members/Maroon5/Adam_Levine.png",
+      },
+      {
+        id: 202,
+        name: "Jesse Carmichael",
+        role: "Keyboard and guitar",
+        image: "/image/bands/bands_members/Maroon5/Jesse_Carmichael.jpeg",
+      },
+      {
+        id: 203,
+        name: "James Valentine",
+        role: "Guitar",
+        image: "/image/bands/bands_members/Maroon5/James_Valentine.jpeg",
+      },
+      {
+        id: 204,
+        name: "Matt Flynn",
+        role: "Drums",
+        image: "/image/bands/bands_members/Maroon5/Matt_Flynn.jpeg",
+      },
+      {
+        id: 205,
+        name: "PJ Morton",
+        role: "Keyboard",
+        image: "/image/bands/bands_members/Maroon5/PJ_Morton.jpeg",
+      },
+      {
+        id: 206,
+        name: "Sam Farrar",
+        role: "Bass and keyboard",
+        image: "/image/bands/bands_members/Maroon5/Sam_Farrar.jpeg",
+      },
     ],
-    establishedYear: 1994,
-    description: "Maroon 5 was founded as the high school band Kara's Flowers ",
-    logoUrl: "/image/bands/Maroon_5_logo.svg",
-    website: "https://www.maroon5.com/",
   },
   {
-    id: "Queen_3",
-    brandname: "Queen",
-    founder: "Freddie Mercury, Brian May, Roger Taylor, John Deacon",
+    id: 3,
+    slug: "queen",
+    name: "Queen",
+    genre: "Rock",
+    origin: "London, England",
+    description:
+      "A British rock band celebrated for powerful performances, layered arrangements, and distinctive musical styles.",
+    image: "/image/bands/bands_members/Queen/QueenPhotoMembers.jpg",
+    accentColor: "#6c4ac7",
     members: [
-      "Freddie Mercury",
-      "Brian May",
-      "Roger Taylor",
-      "John Deacon",
+      {
+        id: 301,
+        name: "Freddie Mercury",
+        role: "Lead vocals and piano",
+        image: "/image/bands/bands_members/Queen/Freddie_Mercury.jpeg",
+      },
+      {
+        id: 302,
+        name: "Brian May",
+        role: "Guitar and vocals",
+        image: "/image/bands/bands_members/Queen/Brian_May.jpeg",
+      },
+      {
+        id: 303,
+        name: "Roger Taylor",
+        role: "Drums and vocals",
+        image: "/image/bands/bands_members/Queen/Roger_Taylor.jpeg",
+      },
+      {
+        id: 304,
+        name: "John Deacon",
+        role: "Bass",
+        image: "/image/bands/bands_members/Queen/John_Deacon.jpeg",
+      },
     ],
-    establishedYear: 1970,
-    description: "ก่อนที่จะมาเป็นวง Queen สมาชิกอย่าง ไบรอัน เมย์ และ โรเจอร์ เทย์เลอร์ เคยอยู่ในวงดนตรีที่ชื่อว่า Smile มาก่อน ก่อนที่ เฟรดดี เมอร์คิวรี จะเข้ามาร่วมวงและเปลี่ยนชื่อใหม่เป็น Queen",
-    logoUrl: "/image/bands/Queen_logo.svg",
-    website: "https://www.queenonline.com/",
   },
 ];
-
-
-

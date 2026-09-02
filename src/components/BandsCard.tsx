@@ -1,31 +1,82 @@
-import Image from 'next/image';
-import {Band} from "@/src/types/band";
+import Image from "next/image";
+import MemberCard from "./MemberCard";
+import type { Band } from "@/src/types/band";
 
-type BandCardProps = {
- band:Band;
+type BandsCardProps = {
+  Band: Band;
+  position: number;
 };
 
-export default function BandCard({band}: BandCardProps) {
-  if (!band) return null;
-  console.log(band);
+export default function BandsCard({
+  Band,
+  position,
+}: BandsCardProps) {
   return (
-    <article className="band-card text-center">
-      <div className="flex justify-center">
-        <Image 
-          src={band.logoUrl}
-          alt = {band.id}
-          width = {300}
-          height = {300}
-        />
+    <section
+      id={Band.slug}
+      className="Band-card"
+      style={{
+        borderTopColor: Band.accentColor,
+      }}
+    >
+      <div className="Band-hero">
+
+        <div className="Band-image-wrapper">
+          <Image
+            src={Band.image}
+            sizes="(max-width: 768px) 100vw, 45vw"
+            className="Band-image"
+            alt={Band.name}
+            width={500}
+            height={500}
+          />
+
+        </div>
+
+        <div className="Band-information">
+
+          <span
+            className="Band-number"
+            style={{
+              color: Band.accentColor,
+            }}
+          >
+            BAND {String(position + 1).padStart(2, "0")}
+          </span>
+
+          <h2>{Band.name}</h2>
+
+          <div className="Band-meta">
+            <span>{Band.genre}</span>
+            <span>•</span>
+            <span>{Band.origin}</span>
+          </div>
+
+          <p className="Band-description">
+            {Band.description}
+          </p>
+
+          <p className="member-count">
+            {Band.members.length} members
+          </p>
+
+        </div>
       </div>
-      
-      <br/>
-      <h2 >ชื่อวง : {band.brandname}</h2>
-      <p>ผู้บุกเบิก : {band.founder} <br/>
-      ก่อตั้งเมื่อปี : {band.establishedYear} </p>
-      <br/>
-      <p>ชื่อสมาชิกในปัจจุบัน : {Array.isArray(band.members) ? band.members.join(", \n") : band.members}</p>  
-      <br/>
-    </article>
+
+      <div className="members-section">
+
+        <h3>Band Members</h3>
+
+        <div className="member-grid">
+          {Band.members.map((member) => (
+            <MemberCard
+              key={member.id}
+              member={member}
+            />
+          ))}
+        </div>
+
+      </div>
+    </section>
   );
-};
+}
