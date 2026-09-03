@@ -24,8 +24,8 @@ export default function BandsCard({
         <div className="Band-image-wrapper">
           <Image
             src={Band.image}
-            sizes="(max-width: 768px) 100vw, 45vw"
-            className="Band-image"
+            className="Band-image "
+            priority = {true}
             alt={Band.name}
             width={500}
             height={500}

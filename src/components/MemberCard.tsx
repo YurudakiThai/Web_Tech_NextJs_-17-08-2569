@@ -14,8 +14,7 @@ export default function MemberCard({
       <div className="member-image-wrapper">
         <Image
           src={member.image}
-          sizes="(max-width: 768px) 45vw, 180px"
-          className="member-image"
+          className="member-image w-full h-auto"
           alt={member.name}
           width={180}
           height={180}
