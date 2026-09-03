@@ -16,6 +16,7 @@ export default function MemberCard({
           src={member.image}
           className="member-image w-full h-auto"
           alt={member.name}
+          priority={true}
           width={180}
           height={180}
         />

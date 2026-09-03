@@ -24,11 +24,12 @@ export default function BandsCard({
         <div className="Band-image-wrapper">
           <Image
             src={Band.image}
-            className="Band-image "
-            priority = {true}
+            className="Band-image"
+            priority={true}
             alt={Band.name}
-            width={500}
-            height={500}
+            width={300}
+            height={300}
+            style={{ width: '61.8%', height: 'auto', }}
           />
 
         </div>
