@@ -5,12 +5,57 @@ import type { Band } from "@/src/types/band";
 type BandsCardProps = {
   Band: Band;
   position: number;
+  isFollowed: boolean;
+  isLiked: boolean;
+  onToggleFollow: (id: number) => void;
+  onToggleLike: (id: number) => void;
 };
+
+type MemberState = {
+  isFollowed: boolean;
+  isLiked: boolean;
+}
 
 export default function BandsCard({
   Band,
   position,
+  isFollowed,
+  isLiked,
+  onToggleFollow,
+  onToggleLike,
 }: BandsCardProps) {
+
+// State สำหรับสมาชิกแต่ละคน (key: member.id)
+  const [memberStates, setMemberStates] = useState<Record<number, MemberState>>(() => {
+    const initial: Record<number, MemberState> = {};
+    Band.members.forEach((member) => {
+      initial[member.id] = {
+        isFollowed: false,
+        isLiked: false,
+      };
+    });
+    return initial;
+  });
+
+  const handleToggleMemberFollow = (memberId: number) => {
+    setMemberStates((prev) => ({
+      ...prev,
+      [memberId]: {
+        ...prev[memberId],
+        isFollowed: !prev[memberId].isFollowed,
+      },
+    }));
+  };
+
+  const handleToggleMemberLike = (memberId: number) => {
+    setMemberStates((prev) => ({
+      ...prev,
+      [memberId]: {
+        ...prev[memberId],
+        isLiked: !prev[memberId].isLiked,
+      },
+    }));
+  };
   return (
     <section
       id={Band.slug}
@@ -20,7 +65,6 @@ export default function BandsCard({
       }}
     >
       <div className="Band-hero">
-
         <div className="Band-image-wrapper">
           <Image
             src={Band.image}
@@ -29,13 +73,11 @@ export default function BandsCard({
             alt={Band.name}
             width={300}
             height={300}
-            style={{ width: '61.8%', height: 'auto', }}
+            style={{ width: "61.8%", height: "auto" }}
           />
-
         </div>
 
         <div className="Band-information">
-
           <span
             className="Band-number"
             style={{
@@ -53,30 +95,53 @@ export default function BandsCard({
             <span>{Band.origin}</span>
           </div>
 
-          <p className="Band-description">
-            {Band.description}
-          </p>
+          <p className="Band-description">{Band.description}</p>
 
-          <p className="member-count">
-            {Band.members.length} members
-          </p>
+          <p className="member-count">{Band.members.length} members</p>
 
+          {/* ปุ่ม Follow/Like ของวงดนตรี */}
+          <div className="band-actions">
+            <button
+              type="button"
+              className={`btn-follow ${isFollowed ? "active" : ""}`}
+              aria-pressed={isFollowed}
+              onClick={() => onToggleFollow(Band.id)}
+            >
+              {isFollowed ? "เลิกติดตามวง" : "ติดตามวง"}
+            </button>
+            <button
+              type="button"
+              className={`btn-like ${isLiked ? "active" : ""}`}
+              aria-pressed={isLiked}
+              onClick={() => onToggleLike(Band.id)}
+            >
+              {isLiked ? "Liked Band" : "Like Band"}
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="members-section">
-
         <h3>Band Members</h3>
 
         <div className="member-grid">
-          {Band.members.map((member) => (
-            <MemberCard
-              key={member.id}
-              member={member}
-            />
-          ))}
+          {Band.members.map((member) => {
+            const memberState = memberStates[member.id] ?? {
+              isFollowed: false,
+              isLiked: false,
+            };
+            return (
+              <MemberCard
+                key={member.id}
+                member={member}
+                isFollowed={memberState.isFollowed}
+                isLiked={memberState.isLiked}
+                onToggleFollow={handleToggleMemberFollow}
+                onToggleLike={handleToggleMemberLike}
+              />
+            );
+          })}
         </div>
-
       </div>
     </section>
   );

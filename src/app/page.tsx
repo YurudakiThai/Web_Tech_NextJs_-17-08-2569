@@ -23,6 +23,7 @@ export default function HomePage() {
               Band={Band}
               position={index}
             />
+
           ))}
         </div>
 
