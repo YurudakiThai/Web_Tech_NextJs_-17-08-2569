@@ -7,7 +7,7 @@ export default function Header() {
       <nav className="navbar">
 
         <a href="">
-          BAND<span>SPACE</span>
+          <span> BAND SPACE</span>
         </a>
 
         <div className="nav-links">

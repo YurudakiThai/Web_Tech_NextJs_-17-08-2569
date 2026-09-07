@@ -49,7 +49,7 @@ export default function BandsCard({
 
           <div className="Band-meta">
             <span>{Band.genre}</span>
-            <span>•</span>
+            <span> • </span>
             <span>{Band.origin}</span>
           </div>
 
