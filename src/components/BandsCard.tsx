@@ -6,26 +6,19 @@ type BandsCardProps = {
   Band: Band;
   position: number;
   isFollowed: boolean;
-  isLiked: boolean;
   onToggleFollow: (id: number) => void;
-  onToggleLike: (id: number) => void;
+  likeCount: number;
+  onLike: (id: number) => void;
 };
-
-type MemberState = {
-  isFollowed: boolean;
-  isLiked: boolean;
-}
-
 export default function BandsCard({
   Band,
   position,
   isFollowed,
-  isLiked,
   onToggleFollow,
-  onToggleLike,
+  likeCount,
+  onLike,
 }: BandsCardProps) {
-
-// State สำหรับสมาชิกแต่ละคน (key: member.id)
+  // State สำหรับสมาชิกแต่ละคน (key: member.id)
   const [memberStates, setMemberStates] = useState<Record<number, MemberState>>(() => {
     const initial: Record<number, MemberState> = {};
     Band.members.forEach((member) => {
@@ -84,9 +77,8 @@ export default function BandsCard({
               color: Band.accentColor,
             }}
           >
-            BAND {String(position + 1).padStart(2, "0")}
+            BAND {String(position + 1).padStart(2, "0")}{" "}
           </span>
-
           <h2>{Band.name}</h2>
 
           <div className="Band-meta">
@@ -99,23 +91,13 @@ export default function BandsCard({
 
           <p className="member-count">{Band.members.length} members</p>
 
-          {/* ปุ่ม Follow/Like ของวงดนตรี */}
-          <div className="band-actions">
-            <button
-              type="button"
-              className={`btn-follow ${isFollowed ? "active" : ""}`}
-              aria-pressed={isFollowed}
-              onClick={() => onToggleFollow(Band.id)}
-            >
-              {isFollowed ? "เลิกติดตามวง" : "ติดตามวง"}
+          <div className="member-count">
+            <button type="button" onClick={() => onToggleFollow(Band.id)} aria-pressed={isFollowed}>
+              {isFollowed ? "○เลิกติดตาม" : "💓ติดตาม"}
             </button>
-            <button
-              type="button"
-              className={`btn-like ${isLiked ? "active" : ""}`}
-              aria-pressed={isLiked}
-              onClick={() => onToggleLike(Band.id)}
-            >
-              {isLiked ? "Liked Band" : "Like Band"}
+
+            <button type="button" onClick={() => onLike(Band.id)}>
+              Like ({likeCount})
             </button>
           </div>
         </div>
@@ -125,22 +107,9 @@ export default function BandsCard({
         <h3>Band Members</h3>
 
         <div className="member-grid">
-          {Band.members.map((member) => {
-            const memberState = memberStates[member.id] ?? {
-              isFollowed: false,
-              isLiked: false,
-            };
-            return (
-              <MemberCard
-                key={member.id}
-                member={member}
-                isFollowed={memberState.isFollowed}
-                isLiked={memberState.isLiked}
-                onToggleFollow={handleToggleMemberFollow}
-                onToggleLike={handleToggleMemberLike}
-              />
-            );
-          })}
+          {Band.members.map((member) => (
+            <MemberCard key={member.id} member={member} />
+          ))}
         </div>
       </div>
     </section>
