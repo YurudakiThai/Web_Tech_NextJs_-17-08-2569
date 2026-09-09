@@ -5,11 +5,18 @@ import type { Band } from "@/src/types/band";
 type BandsCardProps = {
   Band: Band;
   position: number;
+  isFollowed: boolean;
+  onToggleFollow: (id: number) => void;
+  likeCount: number;
+  onLike: (id: number) => void;
 };
-
 export default function BandsCard({
   Band,
   position,
+  isFollowed,
+  onToggleFollow,
+  likeCount,
+  onLike,
 }: BandsCardProps) {
   return (
     <section
@@ -42,9 +49,7 @@ export default function BandsCard({
               color: Band.accentColor,
             }}
           >
-            BAND {String(position + 1).padStart(2, "0")}
-          </span>
-
+            BAND {String(position + 1).padStart(2, "0")} </span>
           <h2>{Band.name}</h2>
 
           <div className="Band-meta">
@@ -61,6 +66,24 @@ export default function BandsCard({
             {Band.members.length} members
           </p>
 
+          <div className="member-count">
+            <button
+              type="button"
+              onClick={() => onToggleFollow(Band.id)}
+              aria-pressed={isFollowed}
+            >
+              {isFollowed ? "○เลิกติดตาม" : "💓ติดตาม"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => onLike(Band.id)}
+            >
+              Like ({likeCount})
+            </button>
+
+
+          </div>
         </div>
       </div>
 
@@ -78,6 +101,6 @@ export default function BandsCard({
         </div>
 
       </div>
-    </section>
+    </section >
   );
 }
