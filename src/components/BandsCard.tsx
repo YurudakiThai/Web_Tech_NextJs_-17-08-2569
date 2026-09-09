@@ -27,7 +27,6 @@ export default function BandsCard({
       }}
     >
       <div className="Band-hero">
-
         <div className="Band-image-wrapper">
           <Image
             src={Band.image}
@@ -36,20 +35,19 @@ export default function BandsCard({
             alt={Band.name}
             width={300}
             height={300}
-            style={{ width: '61.8%', height: 'auto', }}
+            style={{ width: "61.8%", height: "auto" }}
           />
-
         </div>
 
         <div className="Band-information">
-
           <span
             className="Band-number"
             style={{
               color: Band.accentColor,
             }}
           >
-            BAND {String(position + 1).padStart(2, "0")} </span>
+            BAND {String(position + 1).padStart(2, "0")}{" "}
+          </span>
           <h2>{Band.name}</h2>
 
           <div className="Band-meta">
@@ -58,49 +56,31 @@ export default function BandsCard({
             <span>{Band.origin}</span>
           </div>
 
-          <p className="Band-description">
-            {Band.description}
-          </p>
+          <p className="Band-description">{Band.description}</p>
 
-          <p className="member-count">
-            {Band.members.length} members
-          </p>
+          <p className="member-count">{Band.members.length} members</p>
 
           <div className="member-count">
-            <button
-              type="button"
-              onClick={() => onToggleFollow(Band.id)}
-              aria-pressed={isFollowed}
-            >
+            <button type="button" onClick={() => onToggleFollow(Band.id)} aria-pressed={isFollowed}>
               {isFollowed ? "○เลิกติดตาม" : "💓ติดตาม"}
             </button>
 
-            <button
-              type="button"
-              onClick={() => onLike(Band.id)}
-            >
+            <button type="button" onClick={() => onLike(Band.id)}>
               Like ({likeCount})
             </button>
-
-
           </div>
         </div>
       </div>
 
       <div className="members-section">
-
         <h3>Band Members</h3>
 
         <div className="member-grid">
           {Band.members.map((member) => (
-            <MemberCard
-              key={member.id}
-              member={member}
-            />
+            <MemberCard key={member.id} member={member} />
           ))}
         </div>
-
       </div>
-    </section >
+    </section>
   );
 }
