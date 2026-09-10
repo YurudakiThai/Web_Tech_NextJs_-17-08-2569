@@ -30,6 +30,10 @@ export default function BandsExplorer({ bands }: BandsExplorerProps) {
 
   const searchText = keyword.trim().toLowerCase();
   const visibleBands = bands.filter((band) => band.name.toLowerCase().includes(searchText));
+  // const visibleMembers = bands.members.filter((member) =>
+  //   member.name.toLowerCase().includes(searchText),
+  // );
+  console.log(bands.map((band) => band.members.map((member) => member.name)));
 
   return (
     <div>

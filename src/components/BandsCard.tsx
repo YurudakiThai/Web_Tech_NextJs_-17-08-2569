@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MemberCard from "@/src/components/MemberCard";
+import { bands } from "@/src/data/bandsData";
 import type { Band } from "@/src/types/band";
 
 type BandsCardProps = {
@@ -61,8 +62,13 @@ export default function BandsCard({
           <p className="member-count">{Band.members.length} members</p>
 
           <div className="member-count">
-            <button type="button" onClick={() => onToggleFollow(Band.id)} aria-pressed={isFollowed}>
-              {isFollowed ? "○เลิกติดตาม" : "💓ติดตาม"}
+            <button
+              className="button"
+              type="button"
+              onClick={() => onToggleFollow(Band.id)}
+              aria-pressed={isFollowed}
+            >
+              {isFollowed ? "○ เลิกติดตาม" : "💓 ติดตาม"}
             </button>
 
             <button type="button" onClick={() => onLike(Band.id)}>
