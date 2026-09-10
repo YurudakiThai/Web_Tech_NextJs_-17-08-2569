@@ -18,9 +18,7 @@ export default function BandsExplorer({ bands }: BandsExplorerProps) {
   }
 
   function handleToggleFollow(id: number) {
-    setFollowedIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
+    setFollowedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   }
 
   function handleLike(id: number) {
@@ -31,9 +29,7 @@ export default function BandsExplorer({ bands }: BandsExplorerProps) {
   }
 
   const searchText = keyword.trim().toLowerCase();
-  const visibleBands = bands.filter((band) =>
-    band.name.toLowerCase().includes(searchText)
-  );
+  const visibleBands = bands.filter((band) => band.name.toLowerCase().includes(searchText));
 
   return (
     <div>

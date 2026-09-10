@@ -1,5 +1,5 @@
 import Image from "next/image";
-import MemberCard from "./MemberCard";
+import MemberCard from "@/src/components/MemberCard";
 import type { Band } from "@/src/types/band";
 
 type BandsCardProps = {
@@ -18,37 +18,6 @@ export default function BandsCard({
   likeCount,
   onLike,
 }: BandsCardProps) {
-  // State สำหรับสมาชิกแต่ละคน (key: member.id)
-  const [memberStates, setMemberStates] = useState<Record<number, MemberState>>(() => {
-    const initial: Record<number, MemberState> = {};
-    Band.members.forEach((member) => {
-      initial[member.id] = {
-        isFollowed: false,
-        isLiked: false,
-      };
-    });
-    return initial;
-  });
-
-  const handleToggleMemberFollow = (memberId: number) => {
-    setMemberStates((prev) => ({
-      ...prev,
-      [memberId]: {
-        ...prev[memberId],
-        isFollowed: !prev[memberId].isFollowed,
-      },
-    }));
-  };
-
-  const handleToggleMemberLike = (memberId: number) => {
-    setMemberStates((prev) => ({
-      ...prev,
-      [memberId]: {
-        ...prev[memberId],
-        isLiked: !prev[memberId].isLiked,
-      },
-    }));
-  };
   return (
     <section
       id={Band.slug}
