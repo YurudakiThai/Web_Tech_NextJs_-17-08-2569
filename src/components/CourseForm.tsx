@@ -69,7 +69,7 @@ export default function CourseForm({ initialCourse, onSave, onCancel }: CourseFo
     setDraft((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const nextErrors = validate(draft);
