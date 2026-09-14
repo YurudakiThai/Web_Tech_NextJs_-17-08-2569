@@ -9,6 +9,7 @@ export type GameDraft = {
   platform: string;
   hours: string;
   status: GameStatus;
+  image: string;
 };
 
 const emptyDraft: GameDraft = {
@@ -16,6 +17,7 @@ const emptyDraft: GameDraft = {
   platform: "",
   hours: "",
   status: "not-started",
+  image: "",
 };
 
 type FormErrors = Partial<Record<keyof GameDraft, string>>;
@@ -32,6 +34,7 @@ function toDraft(game?: Game): GameDraft {
     platform: game.platform,
     hours: String(game.hours),
     status: game.status,
+    image: game.image,
   };
 }
 
@@ -71,78 +74,84 @@ export default function GameForm({ initialGame, onSave, onCancel }: GameFormProp
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-4">
-      <h2 className="text-lg font-semibold text-ink">
+      <h2 className="text-lg font-semibold text-white m-0">
         {initialGame ? "แก้ไขเกม" : "เพิ่มเกมใหม่"}
       </h2>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="name" className="label">ชื่อเกม</label>
+          <input
+            id="name" name="name" type="text"
+            value={draft.name} onChange={handleChange}
+            className={errors.name ? "input-error" : "input"}
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? "name-error" : undefined}
+          />
+          {errors.name && <p id="name-error" className="error-text">{errors.name}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="platform" className="label">แพลตฟอร์ม</label>
+          <select
+            id="platform" name="platform"
+            value={draft.platform} onChange={handleChange}
+            className={errors.platform ? "input-error select" : "select"}
+          >
+            <option value="">-- เลือกแพลตฟอร์ม --</option>
+            <option value="PC">PC</option>
+            <option value="PlayStation">PlayStation</option>
+            <option value="Xbox">Xbox</option>
+            <option value="Switch">Switch</option>
+            <option value="Mobile">Mobile</option>
+          </select>
+          {errors.platform && <p id="platform-error" className="error-text">{errors.platform}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="hours" className="label">จำนวนชั่วโมง</label>
+          <input
+            id="hours" name="hours" type="number"
+            inputMode="numeric" min="1"
+            value={draft.hours} onChange={handleChange}
+            className={errors.hours ? "input-error" : "input"}
+          />
+          {errors.hours && <p id="hours-error" className="error-text">{errors.hours}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="status" className="label">สถานะ</label>
+          <select
+            id="status" name="status"
+            value={draft.status} onChange={handleChange}
+            className="select"
+          >
+            {GAME_STATUSES.map((status) => (
+              <option key={status} value={status}>
+                {GAME_STATUS_LABELS[status]}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
       <div>
-        <label htmlFor="name" className="label">ชื่อเกม</label>
+        <label htmlFor="image" className="label">URL หน้าปก (ไม่บังคับ)</label>
         <input
-          id="name" name="name" type="text"
-          value={draft.name} onChange={handleChange}
-          className={errors.name ? "input-error" : "input"}
-          aria-invalid={!!errors.name}
-          aria-describedby={errors.name ? "name-error" : undefined}
+          id="image" name="image" type="url"
+          placeholder="https://..."
+          value={draft.image} onChange={handleChange}
+          className="input"
         />
-        {errors.name && <p id="name-error" className="error-text">{errors.name}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="platform" className="label">แพลตฟอร์ม</label>
-        <select
-          id="platform" name="platform"
-          value={draft.platform} onChange={handleChange}
-          className={errors.platform ? "input-error select" : "select"}
-          aria-invalid={!!errors.platform}
-          aria-describedby={errors.platform ? "platform-error" : undefined}
-        >
-          <option value="">-- เลือกแพลตฟอร์ม --</option>
-          <option value="PC">PC</option>
-          <option value="PlayStation">PlayStation</option>
-          <option value="Xbox">Xbox</option>
-          <option value="Switch">Switch</option>
-          <option value="Mobile">Mobile</option>
-        </select>
-        {errors.platform && <p id="platform-error" className="error-text">{errors.platform}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="hours" className="label">จำนวนชั่วโมง</label>
-        <input
-          id="hours" name="hours" type="number"
-          inputMode="numeric" min="1"
-          value={draft.hours} onChange={handleChange}
-          className={errors.hours ? "input-error" : "input"}
-          aria-invalid={!!errors.hours}
-          aria-describedby={errors.hours ? "hours-error" : undefined}
-        />
-        {errors.hours && <p id="hours-error" className="error-text">{errors.hours}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="status" className="label">สถานะ</label>
-        <select
-          id="status" name="status"
-          value={draft.status} onChange={handleChange}
-          className="select"
-        >
-          {GAME_STATUSES.map((status) => (
-            <option key={status} value={status}>
-              {GAME_STATUS_LABELS[status]}
-            </option>
-          ))}
-        </select>
       </div>
 
       <div className="flex gap-2 pt-2">
         <button type="submit" className="btn-primary">
           <i className="i-lucide-save" /> บันทึก
         </button>
-        {initialGame && (
-          <button type="button" onClick={onCancel} className="btn-ghost">
-            ยกเลิก
-          </button>
-        )}
+        <button type="button" onClick={onCancel} className="btn-ghost">
+          ยกเลิก
+        </button>
       </div>
     </form>
   );

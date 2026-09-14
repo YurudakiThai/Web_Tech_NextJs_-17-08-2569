@@ -15,6 +15,7 @@ export default function GameExplorer({ initialGames }: GameExplorerProps) {
   const [statusFilter, setStatusFilter] = useState<GameStatusFilter>("all");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
 
   function toGame(id: string, draft: GameDraft): Game {
     return {
@@ -23,18 +24,20 @@ export default function GameExplorer({ initialGames }: GameExplorerProps) {
       platform: draft.platform,
       hours: Number(draft.hours),
       status: draft.status,
+      image: draft.image?.trim() || "https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg",
     };
   }
 
   function handleSave(draft: GameDraft) {
     if (editingId === null) {
       setGames((prev) => [...prev, toGame(crypto.randomUUID(), draft)]);
-      return;
+    } else {
+      setGames((prev) =>
+        prev.map((g) => (g.id === editingId ? toGame(editingId, draft) : g))
+      );
+      setEditingId(null);
     }
-    setGames((prev) =>
-      prev.map((g) => (g.id === editingId ? toGame(editingId, draft) : g))
-    );
-    setEditingId(null);
+    setShowForm(false);
   }
 
   function handleDelete(id: string) {
@@ -69,21 +72,34 @@ export default function GameExplorer({ initialGames }: GameExplorerProps) {
     .filter((g) => g.status === "not-started")
     .reduce((sum, g) => sum + g.hours, 0);
 
+  const playingCount = games.filter((g) => g.status === "playing").length;
+  const finishedCount = games.filter((g) => g.status === "finished").length;
+
   return (
     <div className="space-y-6">
-      <header className="flex items-baseline justify-between flex-wrap gap-2">
-        <h1 className="text-2xl font-bold text-ink m-0">Game Backlog</h1>
-        <p className="text-sm text-muted m-0">
-          ยังไม่เริ่มรวม <span className="font-semibold text-ink">{totalHoursNotStarted}</span> ชม.
-        </p>
-      </header>
+      {/* Hero stats */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-steam-card p-4 rounded">
+          <div className="text-xs uppercase tracking-wider text-steam-muted">PLAYING</div>
+          <div className="text-3xl font-bold text-steam-accent mt-1">{playingCount}</div>
+        </div>
+        <div className="bg-steam-card p-4 rounded">
+          <div className="text-xs uppercase tracking-wider text-steam-muted">COMPLETED</div>
+          <div className="text-3xl font-bold text-ok mt-1">{finishedCount}</div>
+        </div>
+        <div className="bg-steam-card p-4 rounded">
+          <div className="text-xs uppercase tracking-wider text-steam-muted">BACKLOG (H)</div>
+          <div className="text-3xl font-bold text-warn mt-1">{totalHoursNotStarted}</div>
+        </div>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {/* Toolbar */}
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_auto_auto] gap-3 items-end">
         <div>
-          <label htmlFor="keyword" className="label">ค้นหาเกม</label>
+          <label htmlFor="keyword" className="label">ค้นหา</label>
           <input
             id="keyword"
-            placeholder="ค้นหาชื่อเกมหรือแพลตฟอร์ม..."
+            placeholder="ค้นชื่อเกม..."
             value={keyword}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
             className="input"
@@ -105,27 +121,37 @@ export default function GameExplorer({ initialGames }: GameExplorerProps) {
             ))}
           </select>
         </div>
+        <button
+          onClick={() => { setEditingId(null); setShowForm(!showForm); }}
+          className="btn-primary"
+        >
+          <i className="i-lucide-plus" /> เพิ่มเกม
+        </button>
       </div>
 
-      <section className="card">
-        <GameForm
-          key={editingId ?? "new"}
-          initialGame={editingGame}
-          onSave={handleSave}
-          onCancel={() => setEditingId(null)}
-        />
-      </section>
+      {/* Form drawer */}
+      {showForm && (
+        <section className="bg-steam-card p-6 rounded">
+          <GameForm
+            key={editingId ?? "new"}
+            initialGame={editingGame}
+            onSave={handleSave}
+            onCancel={() => { setEditingId(null); setShowForm(false); }}
+          />
+        </section>
+      )}
 
-      <div className="space-y-3">
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {visibleGames.length === 0 ? (
-          <p className="text-center text-muted py-8">ไม่พบเกมที่ตรงกับคำค้น</p>
+          <p className="text-center text-steam-muted py-8 col-span-full">ไม่พบเกมที่ตรงกับคำค้น</p>
         ) : (
           visibleGames.map((game) => (
             <GameCard
               key={game.id}
               game={game}
               confirming={confirmingId === game.id}
-              onEdit={() => setEditingId(game.id)}
+              onEdit={() => { setEditingId(game.id); setShowForm(true); }}
               onDelete={() => setConfirmingId(game.id)}
               onCancelDelete={() => setConfirmingId(null)}
               onConfirmDelete={() => handleDelete(game.id)}

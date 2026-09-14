@@ -2,8 +2,23 @@
 @unocss;
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #f8fafc;
-  color: #0f172a;
+  font-family: "Motiva Sans", Arial, sans-serif;
+  background: #1b2838;
+  background-image: linear-gradient(to bottom, #1b2838 0%, #171a21 100%);
+  color: #c7d5e0;
   margin: 0;
+  min-height: 100vh;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #171a21;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4c6b22;
+  border-radius: 4px;
 }
