@@ -1,15 +1,12 @@
 "use client";
 
 import { useState, type ChangeEvent } from "react";
-import type { Game, GameStatus } from "../types/game";
-import { GAME_STATUS_LABELS } from "../types/game";
-import GameCard from "../components/GameCard";
-import GameForm, { type GameDraft } from "../components/GameForm";
+import type { Game, GameStatus } from "@/src/types/game";
+import { GAME_STATUS_LABELS } from "@/src/types/game";
+import GameCard from "@/src/components/GameCard";
+import GameForm, { type GameDraft } from "@/src/components/GameForm";
 
-type GameExplorerProps = {
-  initialGames: Game[];
-};
-
+type GameExplorerProps = { initialGames: Game[] };
 type GameStatusFilter = "all" | GameStatus;
 
 export default function GameExplorer({ initialGames }: GameExplorerProps) {
@@ -34,104 +31,109 @@ export default function GameExplorer({ initialGames }: GameExplorerProps) {
       setGames((prev) => [...prev, toGame(crypto.randomUUID(), draft)]);
       return;
     }
-
     setGames((prev) =>
-      prev.map((game) => (game.id === editingId ? toGame(editingId, draft) : game)),
+      prev.map((g) => (g.id === editingId ? toGame(editingId, draft) : g))
     );
-
     setEditingId(null);
   }
 
   function handleDelete(id: string) {
-    setGames((prev) => prev.filter((game) => game.id !== id));
+    setGames((prev) => prev.filter((g) => g.id !== id));
     setConfirmingId(null);
   }
 
   function handleToggleStatus(id: string) {
     setGames((prev) =>
-      prev.map((game) => {
-        if (game.id !== id) {
-          return game;
-        }
-
+      prev.map((g) => {
+        if (g.id !== id) return g;
         const nextStatus: GameStatus =
-          game.status === "not-started"
-            ? "playing"
-            : game.status === "playing"
-              ? "finished"
+          g.status === "not-started" ? "playing"
+            : g.status === "playing" ? "finished"
               : "not-started";
-
-        return { ...game, status: nextStatus };
-      }),
+        return { ...g, status: nextStatus };
+      })
     );
   }
 
-  function handleKeywordChange(event: ChangeEvent<HTMLInputElement>) {
-    setKeyword(event.target.value);
-  }
-
-  function handleStatusFilterChange(event: ChangeEvent<HTMLSelectElement>) {
-    setStatusFilter(event.target.value as GameStatusFilter);
-  }
-
-  const editingGame = games.find((game) => game.id === editingId);
+  const editingGame = games.find((g) => g.id === editingId);
   const searchText = keyword.trim().toLowerCase();
-
-  const visibleGames = games.filter((game) => {
+  const visibleGames = games.filter((g) => {
     const matchSearch =
-      game.name.toLowerCase().includes(searchText) ||
-      game.platform.toLowerCase().includes(searchText);
-
-    const matchStatus = statusFilter === "all" || game.status === statusFilter;
-
+      g.name.toLowerCase().includes(searchText) ||
+      g.platform.toLowerCase().includes(searchText);
+    const matchStatus = statusFilter === "all" || g.status === statusFilter;
     return matchSearch && matchStatus;
   });
 
   const totalHoursNotStarted = games
-    .filter((game) => game.status === "not-started")
-    .reduce((sum, game) => sum + game.hours, 0);
+    .filter((g) => g.status === "not-started")
+    .reduce((sum, g) => sum + g.hours, 0);
 
   return (
-    <div>
-      <label htmlFor="keyword">ค้นหาเกม</label>
-      <input id="keyword" placeholder="ค้นหาเกม" value={keyword} onChange={handleKeywordChange} />
+    <div className="space-y-6">
+      <header className="flex items-baseline justify-between flex-wrap gap-2">
+        <h1 className="text-2xl font-bold text-ink m-0">Game Backlog</h1>
+        <p className="text-sm text-muted m-0">
+          ยังไม่เริ่มรวม <span className="font-semibold text-ink">{totalHoursNotStarted}</span> ชม.
+        </p>
+      </header>
 
-      <label htmlFor="statusFilter">สถานะ</label>
-      <select id="statusFilter" value={statusFilter} onChange={handleStatusFilterChange}>
-        <option value="all">ทั้งหมด</option>
-        {GAME_STATUS_LABELS &&
-          Object.entries(GAME_STATUS_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-      </select>
-
-      <p>ชั่วโมงรวมของเกมที่ยังไม่เริ่ม: {totalHoursNotStarted}</p>
-
-      <GameForm
-        key={editingId ?? "new"}
-        initialGame={editingGame}
-        onSave={handleSave}
-        onCancel={() => setEditingId(null)}
-      />
-
-      {visibleGames.length === 0 ? (
-        <p>ไม่พบเกม</p>
-      ) : (
-        visibleGames.map((game) => (
-          <GameCard
-            key={game.id}
-            game={game}
-            confirming={confirmingId === game.id}
-            onEdit={() => setEditingId(game.id)}
-            onDelete={() => setConfirmingId(game.id)}
-            onCancelDelete={() => setConfirmingId(null)}
-            onConfirmDelete={() => handleDelete(game.id)}
-            onToggleStatus={() => handleToggleStatus(game.id)}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div>
+          <label htmlFor="keyword" className="label">ค้นหาเกม</label>
+          <input
+            id="keyword"
+            placeholder="ค้นหาชื่อเกมหรือแพลตฟอร์ม..."
+            value={keyword}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setKeyword(e.target.value)}
+            className="input"
           />
-        ))
-      )}
+        </div>
+        <div>
+          <label htmlFor="statusFilter" className="label">สถานะ</label>
+          <select
+            id="statusFilter"
+            value={statusFilter}
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+              setStatusFilter(e.target.value as GameStatusFilter)
+            }
+            className="select"
+          >
+            <option value="all">ทั้งหมด</option>
+            {Object.entries(GAME_STATUS_LABELS).map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <section className="card">
+        <GameForm
+          key={editingId ?? "new"}
+          initialGame={editingGame}
+          onSave={handleSave}
+          onCancel={() => setEditingId(null)}
+        />
+      </section>
+
+      <div className="space-y-3">
+        {visibleGames.length === 0 ? (
+          <p className="text-center text-muted py-8">ไม่พบเกมที่ตรงกับคำค้น</p>
+        ) : (
+          visibleGames.map((game) => (
+            <GameCard
+              key={game.id}
+              game={game}
+              confirming={confirmingId === game.id}
+              onEdit={() => setEditingId(game.id)}
+              onDelete={() => setConfirmingId(game.id)}
+              onCancelDelete={() => setConfirmingId(null)}
+              onConfirmDelete={() => handleDelete(game.id)}
+              onToggleStatus={() => handleToggleStatus(game.id)}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }
