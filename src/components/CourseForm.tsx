@@ -21,7 +21,7 @@ type FormErrors = Partial<Record<keyof CourseDraft, string>>;
 
 type CourseFormProps = {
   initialCourse?: Course;
-  onSave: (draft: CourseDraft) => void;
+  onSave: (draft: CourseDraft) => Promise<boolean> | boolean;
   onCancel: () => void;
 };
 
@@ -79,9 +79,18 @@ export default function CourseForm({ initialCourse, onSave, onCancel }: CourseFo
       return;
     }
 
-    onSave(draft);
-    setDraft(emptyDraft);
-    setErrors({});
+    let success = false;
+
+    try {
+      success = await onSave(draft);
+    } catch {
+      success = false;
+    }
+
+    if (success) {
+      setDraft(emptyDraft);
+      setErrors({});
+    }
   }
 
   return (

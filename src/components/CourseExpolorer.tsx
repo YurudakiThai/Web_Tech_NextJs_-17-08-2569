@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 import type { Course } from "../types/course";
 import CourseCard from "../components/CourseCard";
 import CourseForm, { type CourseDraft } from "../components/CourseForm";
@@ -10,51 +11,66 @@ type CourseExplorerProps = {
 };
 
 export default function CourseExplorer({ initialCourses }: CourseExplorerProps) {
+  const router = useRouter();
   const [courses, setCourses] = useState<Course[]>(initialCourses);
   const [keyword, setKeyword] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [message, setMessage] = useState("");
 
-  function handleCreate(draft: CourseDraft) {
-    const newCourse: Course = {
-      id: crypto.randomUUID(),
-      code: draft.code.trim(),
-      name: draft.name.trim(),
-      credit: Number(draft.credit),
-      instructor: draft.instructor.trim(),
-    };
+  useEffect(() => {
+    setCourses(initialCourses);
+  }, [initialCourses]);
 
-    setCourses([...courses, newCourse]);
-  }
+  async function handleSave(draft: CourseDraft): Promise<boolean> {
+    try {
+      if (editingId === null) {
+        const res = await fetch("/api/courses", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(draft),
+        });
 
-  function handleDelete(id: string) {
-    setCourses(courses.filter((course) => course.id !== id));
-  }
+        if (!res.ok) {
+          const body = await res.json().catch(() => null);
+          setMessage(body?.message ?? "บันทึกไม่สำเร็จ");
+          return false;
+        }
 
-  function handleUpdate(id: string, draft: CourseDraft) {
-    setCourses(
-      courses.map((course) =>
-        course.id === id
-          ? {
-            ...course,
-            code: draft.code.trim(),
-            name: draft.name.trim(),
-            credit: Number(draft.credit),
-            instructor: draft.instructor.trim(),
-          }
-          : course,
-      ),
-    );
+        setMessage("");
+        router.refresh();
+        return true;
+      }
 
-    setEditingId(null);
-  }
+      const res = await fetch(`/api/courses/${editingId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(draft),
+      });
 
-  function handleSave(draft: CourseDraft) {
-    if (editingId === null) {
-      handleCreate(draft);
-      return;
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setMessage(body?.message ?? "บันทึกไม่สำเร็จ");
+        return false;
+      }
+
+      setMessage("");
+      setEditingId(null);
+      router.refresh();
+      return true;
+    } catch {
+      setMessage("บันทึกไม่สำเร็จ");
+      return false;
     }
+  }
 
-    handleUpdate(editingId, draft);
+  async function handleDelete(id: string) {
+    const res = await fetch(`/api/courses/${id}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      router.refresh();
+    }
   }
 
   function handleKeywordChange(event: ChangeEvent<HTMLInputElement>) {
@@ -75,6 +91,8 @@ export default function CourseExplorer({ initialCourses }: CourseExplorerProps) 
       <label htmlFor="keyword">ค้นหารายวิชา</label>
       <input id="keyword" placeholder="ค้นหารายวิชา" value={keyword} onChange={handleKeywordChange} />
 
+      {message ? <p>{message}</p> : null}
+
       <CourseForm
         key={editingId ?? "new"}
         initialCourse={editingCourse}
@@ -83,7 +101,7 @@ export default function CourseExplorer({ initialCourses }: CourseExplorerProps) 
       />
 
       {visibleCourses.length === 0 ? (
-        <p>ไม่พบรายวิชาที่ตรงกับคําค้นหา</p>
+        <p>ไม่พบรายวิชาที่ตรงกับคำค้น</p>
       ) : (
         visibleCourses.map((course) => (
           <CourseCard

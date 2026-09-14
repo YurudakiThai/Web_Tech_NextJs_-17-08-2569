@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { courses } from "../../../data/courses";
+import { findCourse } from "../../../lib/coursesRepo";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 type CoursePageProps = {
   params: Promise<{ id: string }>;
@@ -9,7 +12,7 @@ type CoursePageProps = {
 
 export async function generateMetadata({ params }: CoursePageProps): Promise<Metadata> {
   const { id } = await params;
-  const course = courses.find((item) => item.id === id);
+  const course = await findCourse(id);
 
   return {
     title: course ? course.name : "ไม่พบรายวิชา",
@@ -18,7 +21,7 @@ export async function generateMetadata({ params }: CoursePageProps): Promise<Met
 
 export default async function CoursePage({ params }: CoursePageProps) {
   const { id } = await params;
-  const course = courses.find((item) => item.id === id);
+  const course = await findCourse(id);
 
   if (!course) {
     notFound();
