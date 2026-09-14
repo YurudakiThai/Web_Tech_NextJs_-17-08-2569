@@ -83,7 +83,7 @@ export default function CourseExplorer({ initialCourses }: CourseExplorerProps) 
       />
 
       {visibleCourses.length === 0 ? (
-        <p>ไม่พบรายวิชาที่ตรงกับคำค้น</p>
+        <p>ไม่พบรายวิชาที่ตรงกับคําค้นหา</p>
       ) : (
         visibleCourses.map((course) => (
           <CourseCard
