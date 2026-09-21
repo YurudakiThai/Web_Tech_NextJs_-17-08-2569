@@ -1,15 +1,4 @@
-import Link from "next/link";
-
+import ProductExplorer from "@/src/components/ProductExplorer";
 export default function Home() {
-  return (
-    <main>
-      <h1>Next Course Hub</h1>
-      <p>
-        <Link href="/courses">/courses</Link>
-      </p>
-      <p>
-        <Link href="/games">/games</Link>
-      </p>
-    </main>
-  );
+  return <ProductExplorer />;
 }

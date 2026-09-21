@@ -1,5 +1,0 @@
-// แบบไม่มี Props
-export default function SectionTitle() {
-  return <h1>รายวิชาทั้งหมด</h1>;
-}
-
