@@ -30,8 +30,9 @@ export default function ProductForm({
         price: editing.price,
         stock: editing.stock,
         category: editing.category,
+        thumbnail: editing.thumbnail,
       }
-      : { title: "", price: undefined, stock: undefined },
+      : { title: "", price: undefined, stock: undefined, thumbnail: "" },
   });
   function save(v: ProductDraft) {
     onSave(v);
@@ -60,6 +61,24 @@ export default function ProductForm({
           aria-invalid={!!errors.stock}
         />
       </Field>
+      <div>
+        <label htmlFor="thumbnail">URL รูปภาพ</label>
+
+        <input
+          id="thumbnail"
+          type="url"
+          required
+          {...register("thumbnail")}
+          aria-invalid={!!errors.thumbnail}
+          aria-describedby="thumbnail-error"
+          placeholder="https://example.com/product.png"
+        />
+
+        <span id="thumbnail-error" role="alert">
+          {errors.thumbnail?.message}
+        </span>
+      </div>
+
       <div>
         <label>หมวดหมู่</label>
         <select required {...register("category")} aria-invalid={!!errors.category}>

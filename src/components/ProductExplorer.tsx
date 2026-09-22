@@ -70,6 +70,7 @@ export default function ProductExplorer() {
             <table>
               <thead>
                 <tr>
+                  <th>รูป</th>
                   <th>ชื่อ</th>
                   <th>ราคา</th>
                   <th>คงเหลือ</th>
@@ -80,6 +81,22 @@ export default function ProductExplorer() {
               <tbody>
                 {products.map((x) => (
                   <tr key={x.id}>
+                    <td>
+                      {x.thumbnail ? (
+                        <img
+                          src={x.thumbnail}
+                          alt={x.title}
+                          width={60}
+                          height={60}
+                          style={{ objectFit: "cover", borderRadius: 6 }}
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = "https://via.placeholder.com/60";
+                          }}
+                        />
+                      ) : (
+                        <span>ไม่มีรูป</span>
+                      )}
+                    </td>
                     <td>{x.title}</td>
                     <td>{x.price}</td>
                     <td>{x.stock}</td>

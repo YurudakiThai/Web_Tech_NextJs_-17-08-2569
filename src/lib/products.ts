@@ -35,7 +35,9 @@ export const ProductSchema = z.object({
     .int("จำนวนคงเหลือต้องเป็นจำนวนเต็ม")
     .min(0, "จำนวนคงเหลือต้องไม่ติดลบ"),
   category: z.enum(CATEGORIES, { error: "กรุณาเลือกหมวดหมู่" }),
+  thumbnail: z.string().url(),
 });
+console.log(ProductSchema);
 export const ProductListSchema = z.object({
   products: z.array(ProductSchema),
   total: z.number(),
@@ -57,22 +59,30 @@ export const SearchQuerySchema = z.object({
     .max(30, "ไม่เกิน 30 รายการ"),
   sortBy: z.enum(SORT_FIELDS),
 });
+
 export type SearchQuery = z.infer<typeof SearchQuerySchema>;
+
 export const defaultQuery: SearchQuery = { q: "", limit: 10, sortBy: "title" };
+
 export function buildProductUrl(q: SearchQuery) {
   const p = new URLSearchParams();
+  console.log(q);
   p.set("q", q.q);
   p.set("limit", String(q.limit));
   p.set("sortBy", q.sortBy);
   p.set("order", "asc");
-  p.set("select", "title,price,stock,category");
+  p.set("select", "title,price,stock,category,thumbnail");
   return `${API_BASE}/products/search?${p.toString()}`;
 }
+console.log(buildProductUrl(defaultQuery));
 export async function fetchProducts(q: SearchQuery): Promise<ProductList> {
   const r = await fetch(buildProductUrl(q));
+  console.log("r= ", r);
   if (!r.ok) throw new Error(`เรียกข้อมูลไม่สำเร็จ สถานะ ${r.status}`);
   const data: unknown = await r.json();
+  console.log("data =", data);
   const result = ProductListSchema.safeParse(data);
+  console.log("result success", result.success);
   if (!result.success) throw new Error("รูปแบบข้อมูลที่ได้รับไม่ตรงกับที่กำหนดไว้");
   return result.data;
 }
