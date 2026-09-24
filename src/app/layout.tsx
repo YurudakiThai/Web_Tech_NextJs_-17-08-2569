@@ -3,8 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "My Favorite Bands",
-  description:
-    "A collection of The Beatles, Maroon 5, and Queen.",
+  description: "A collection of The Beatles, Maroon 5, and Queen.",
 };
 
 export default function RootLayout({
