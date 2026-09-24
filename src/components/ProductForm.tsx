@@ -20,6 +20,7 @@ export default function ProductForm({
     register,
     handleSubmit,
     reset,
+    // isDirty เป็นข้อมูลที่ได้กรอก
     formState: { errors, isDirty, isValid },
   } = useForm<ProductDraft>({
     resolver: zodResolver(ProductDraftSchema),
@@ -53,7 +54,7 @@ export default function ProductForm({
           aria-invalid={!!errors.price}
         />
       </Field>
-      <Field label="จำนวนคงเหลือ" error={errors.stock?.message}>
+      <Field label="จํานวนคงเหลือ" error={errors.stock?.message}>
         <input
           type="number"
           required

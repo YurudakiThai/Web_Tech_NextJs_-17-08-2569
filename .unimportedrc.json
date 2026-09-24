@@ -1,0 +1,18 @@
+{
+  "ignoreUnresolved": [],
+  "ignoreUnused": [
+    "@hookform/resolvers",
+    "install",
+    "next",
+    "react",
+    "react-dom"
+  ],
+  "ignoreUnimported": [
+    "/Users/sapon/Desktop/Txt_note_F/MJUYear2/brain/01-university/assignments/web_code_17-08-2569/next-course-hub/src/app/layout.tsx",
+    "/Users/sapon/Desktop/Txt_note_F/MJUYear2/brain/01-university/assignments/web_code_17-08-2569/next-course-hub/src/app/page.tsx",
+    "/Users/sapon/Desktop/Txt_note_F/MJUYear2/brain/01-university/assignments/web_code_17-08-2569/next-course-hub/src/components/ProductExplorer.tsx",
+    "/Users/sapon/Desktop/Txt_note_F/MJUYear2/brain/01-university/assignments/web_code_17-08-2569/next-course-hub/src/components/ProductForm.tsx",
+    "/Users/sapon/Desktop/Txt_note_F/MJUYear2/brain/01-university/assignments/web_code_17-08-2569/next-course-hub/src/components/ProductSearchForm.tsx",
+    "/Users/sapon/Desktop/Txt_note_F/MJUYear2/brain/01-university/assignments/web_code_17-08-2569/next-course-hub/src/lib/products.ts"
+  ]
+}

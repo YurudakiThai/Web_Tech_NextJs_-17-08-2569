@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import ProductForm from "./ProductForm";
 import ProductSearchForm from "./ProductSearchForm";
+import ProductThumbnail from "./ProductImages";
 import {
   defaultQuery,
   fetchProducts,
@@ -21,7 +22,7 @@ export default function ProductExplorer() {
     setStatus("ready");
   }
   function bad(e: unknown) {
-    setError(e instanceof Error ? e.message : "เรียกข้อมูลไม่สำเร็จ");
+    setError(e instanceof Error ? e.message : "เรียกข้อมูลไม่สําเร็จ");
     setStatus("error");
   }
   async function load(q: SearchQuery) {
@@ -55,14 +56,16 @@ export default function ProductExplorer() {
       <button onClick={() => load(defaultQuery)} disabled={status === "loading"}>
         โหลดซ้ำ
       </button>
-      <ProductForm
-        key={editing?.id ?? "new"}
-        editing={editing}
-        onSave={save}
-        onCancel={() => setEditing(null)}
-      />
+      <div className="products-form">
+        <ProductForm
+          key={editing?.id ?? "new"}
+          editing={editing}
+          onSave={save}
+          onCancel={() => setEditing(null)}
+        />
+      </div>
       <section aria-live="polite">
-        {status === "loading" && <p>กำลังโหลดข้อมูล</p>}
+        {status === "loading" && <p>กําลังโหลดข้อมูล</p>}
         {status === "error" && <p role="alert">{error}</p>}
         {status === "ready" && products.length === 0 && <p>ไม่พบสินค้า</p>}
         {status === "ready" && products.length > 0 && (
@@ -83,16 +86,7 @@ export default function ProductExplorer() {
                   <tr key={x.id}>
                     <td>
                       {x.thumbnail ? (
-                        <img
-                          src={x.thumbnail}
-                          alt={x.title}
-                          width={60}
-                          height={60}
-                          style={{ objectFit: "cover", borderRadius: 6 }}
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = "https://via.placeholder.com/60";
-                          }}
-                        />
+                        <ProductThumbnail src={x.thumbnail} alt={`${x.title}-${x.id}`} />
                       ) : (
                         <span>ไม่มีรูป</span>
                       )}

@@ -46,8 +46,11 @@ export const ProductListSchema = z.object({
 });
 export type Product = z.infer<typeof ProductSchema>;
 export type ProductList = z.infer<typeof ProductListSchema>;
+
+//เติม: Method ของ zod ที่สร้าง Schema ใหม่โดยนํา field ที่ระบุออก
 export const ProductDraftSchema = ProductSchema.omit({ id: true });
 export type ProductDraft = z.infer<typeof ProductDraftSchema>;
+
 const API_BASE = "https://dummyjson.com";
 export const SORT_FIELDS = ["title", "price", "stock"] as const;
 export const SearchQuerySchema = z.object({

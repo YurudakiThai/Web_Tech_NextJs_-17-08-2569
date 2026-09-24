@@ -2,11 +2,23 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SORT_FIELDS, SearchQuerySchema, defaultQuery, type SearchQuery } from "@/src/lib/products";
+
 export default function ProductSearchForm({
   onSearch,
 }: {
   onSearch: (q: SearchQuery) => Promise<void>;
 }) {
+  // v1
+  // const {register} = useForm<SearchQuery>({defaultValues:defaultQuery,});
+  //
+  // v2
+  // const {register,formState: {errors},} = useForm<SearchQuery>({
+  //  resolver: zodResolver(SearchQuerySchema),
+  //  mode: "onTouched",
+  //  defaultValues: defaultQuery,
+  // });
+
+  // v3
   const {
     register,
     handleSubmit,
@@ -19,11 +31,11 @@ export default function ProductSearchForm({
   return (
     <form className="panel search" onSubmit={handleSubmit(onSearch)} noValidate>
       <div>
-        <label htmlFor="q">คำค้น</label>
+        <label htmlFor="q">คําค้น</label>
         <input id="q" {...register("q")} placeholder="phone" />
       </div>
       <div>
-        <label htmlFor="limit">จำนวนรายการ</label>
+        <label htmlFor="limit">จํานวนรายการ</label>
         <input
           id="limit"
           type="number"
@@ -41,7 +53,7 @@ export default function ProductSearchForm({
           ))}
         </select>
       </div>
-      <button disabled={isSubmitting}>{isSubmitting ? "กำลังค้นหา" : "ค้นหา"}</button>
+      <button disabled={isSubmitting}>{isSubmitting ? "กําลังค้นหา" : "ค้นหา"}</button>
     </form>
   );
 }
