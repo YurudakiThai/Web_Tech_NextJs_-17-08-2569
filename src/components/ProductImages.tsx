@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-const FALLBACK_IMAGE = "/no-image.png";
+const FALLBACK_IMAGE = "/no-image.svg";
 
 // domain ที่ควรใช้ <img> แทน next/image
 const EXTERNAL_GIF_HOSTS = ["tenor.com", "giphy.com", "gfycat.com"];
@@ -32,17 +32,24 @@ export default function ProductThumbnail({
     if (imgSrc !== FALLBACK_IMAGE) setImgSrc(FALLBACK_IMAGE);
   };
 
-  const style = {
-    objectFit: "cover" as const,
-    borderRadius: 6,
-    width: size,
-    height: size,
-  };
+  // ใช้ class ของ UnoCSS แทน inline style — ขอบมน มีวงแหวนและเงาเล็กน้อย
+  const className =
+    "rounded-lg object-cover ring-1 ring-brand-200/70 shadow-sm bg-brand-50 shrink-0";
 
   // GIF จาก Tenor/Giphy → ใช้ <img> ตรงๆ
   if (shouldUseNativeImg(imgSrc)) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={imgSrc} alt={alt} style={style} onError={handleError} />;
+    return (
+      <img
+        src={imgSrc}
+        alt={alt}
+        width={size}
+        height={size}
+        className={className}
+        style={{ width: size, height: size }}
+        onError={handleError}
+      />
+    );
   }
 
   return (
@@ -52,7 +59,8 @@ export default function ProductThumbnail({
       width={size}
       height={size}
       unoptimized
-      style={style}
+      className={className}
+      style={{ width: size, height: size }}
       onError={handleError}
     />
   );
