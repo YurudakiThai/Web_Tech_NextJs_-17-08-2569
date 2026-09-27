@@ -1,0 +1,3 @@
+module.exports=[27572,a=>{"use strict";var b=a.i(7997);a.s(["default",0,function({children:a}){return(0,b.jsx)("html",{lang:"th",className:"font-sans",children:(0,b.jsx)("body",{className:"min-h-screen bg-gradient-to-b from-brand-50 via-white to-brand-100/60 text-brand-900 antialiased selection:bg-brand-200",children:a})})},"metadata",0,{title:"รายการสินค้า | Product Explorer",description:"สำรวจ จัดการ และค้นหาสินค้า — React Hook Form + Zod + UnoCSS"}])},50645,function(a){a.n(a.i(27572))}];
+
+//# sourceMappingURL=src_app_layout_tsx_0r5yz5t._.js.map
